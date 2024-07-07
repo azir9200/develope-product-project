@@ -7,7 +7,7 @@ const createProductIntoDB = async (product: TProduct) => {
 };
 
 // const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-//   console.log('bae query', query);
+//   console.log(' query', query);
 //   const queryObj = { ...query };
 
 //   const productSearchFields = ['name', 'price'];
