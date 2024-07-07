@@ -19,9 +19,59 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProducts = async (req: Request, res: Response) => {
+// const getAllProducts = async (req: Request, res: Response) => {
+//   try {
+//     const result = await ProductService.getAllProductsFromDB(req.query);
+
+//     res.status(200).json({
+//       success: true,
+//       message: 'Product are retrieved  successfully !',
+//       data: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
+
+const getProductsAndSearch = async (req: Request, res: Response) => {
   try {
-    const result = await ProductService.getAllProductsFromDB();
+    const { searchTerm } = req.query;
+
+    if (searchTerm) {
+      // If searchTerm is provided, search products
+      const result = await ProductService.searchProductsFromDB(
+        searchTerm as string
+      );
+      res.status(200).json({
+        success: true,
+        message: `Products matching search term '${searchTerm}' fetched successfully!`,
+        data: result,
+      });
+    } else {
+      // If no searchTerm, get all products
+      const result = await ProductService.searchProductsFromDB();
+      res.status(200).json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: result,
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err,
+    });
+  }
+};
+
+const getSingleProduct = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const result = await ProductService.getSingleProductFromDB(id);
+    
+    console.log('Hei Azir, single product', result);
 
     res.status(200).json({
       success: true,
@@ -33,15 +83,30 @@ const getAllProducts = async (req: Request, res: Response) => {
   }
 };
 
-const getSingleProduct = async (req: Request, res: Response) => {
+const updateProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { productId } = req.params;
+    const { product } = req.body;
+    const result = await ProductService.updateProductFromDB(productId, product);
 
-    const result = await ProductService.getSingleProductFromDB(id);
-    console.log('Hei Azir, single product', result);
     res.status(200).json({
       success: true,
-      message: 'Product are retrieved  successfully !',
+      message: 'Product updated successfully !',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const result = await ProductService.deleteProductFromDB(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully !',
       data: result,
     });
   } catch (err) {
@@ -51,6 +116,9 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 export const ProductController = {
   createProduct,
-  getAllProducts,
+  // getAllProducts,
   getSingleProduct,
+  updateProduct,
+  deleteProduct,
+  getProductsAndSearch,
 };

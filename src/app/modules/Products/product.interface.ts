@@ -21,6 +21,6 @@ export type TProduct = {
     isDeleted?: boolean;
 }
 
-export type TProductMethods = {
-    createSlug(payload: TProduct): string;
-  };
+// export type TProductMethods = {
+//     createSlug(payload: TProduct): string;
+//   };
