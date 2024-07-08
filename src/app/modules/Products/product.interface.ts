@@ -1,3 +1,4 @@
+import { Model } from "mongoose";
 
 export type TVariants = {
     type: string;
@@ -10,6 +11,8 @@ export type TInventory = {
 }
 
 export type TProduct = {
+    id: string,
+    password: string,
     name : string;
     description : string;
     price :number;
@@ -19,6 +22,11 @@ export type TProduct = {
     inventory: [TInventory];
     viewCount: number;
     isDeleted?: boolean;
+}
+
+// static method
+export interface TYPProductModel extends Model<TProduct>{
+    isUserExists(id:string): Promise<TProduct | 'NO product found !'>;
 }
 
 // export type TProductMethods = {

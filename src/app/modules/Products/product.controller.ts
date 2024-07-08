@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { Request, Response } from 'express';
 import { ProductService } from './product.service';
@@ -14,8 +15,12 @@ const createProduct = async (req: Request, res: Response) => {
       message: 'Product are created successfully !',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong  !',
+      error: err,
+    });
   }
 };
 
@@ -33,7 +38,6 @@ const createProduct = async (req: Request, res: Response) => {
 //   }
 // };
 
-
 const getProductsAndSearch = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
@@ -41,7 +45,7 @@ const getProductsAndSearch = async (req: Request, res: Response) => {
     if (searchTerm) {
       // If searchTerm is provided, search products
       const result = await ProductService.searchProductsFromDB(
-        searchTerm as string
+        searchTerm as string,
       );
       res.status(200).json({
         success: true,
@@ -53,13 +57,20 @@ const getProductsAndSearch = async (req: Request, res: Response) => {
       const result = await ProductService.searchProductsFromDB();
       res.status(200).json({
         success: true,
-        message: "Products fetched successfully!",
+        message: 'Products fetched successfully!',
         data: result,
       });
     }
-  } catch (err) {
+  } catch (err: any) {
+    // catch (err) {
+    //   res.status(500).json({
+    //     success: false,
+    //     error: err,
+    //   });
+    // }
     res.status(500).json({
       success: false,
+      message: err.message || 'Something went wrong  !',
       error: err,
     });
   }
@@ -70,7 +81,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const result = await ProductService.getSingleProductFromDB(id);
-    
+
     console.log('Hei Azir, single product', result);
 
     res.status(200).json({
@@ -78,8 +89,12 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Product are retrieved  successfully !',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong  !',
+      error: err,
+    });
   }
 };
 
@@ -94,23 +109,31 @@ const updateProduct = async (req: Request, res: Response) => {
       message: 'Product updated successfully !',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong when update data !',
+      error: err,
+    });
   }
 };
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
-    const result = await ProductService.deleteProductFromDB(productId);
+    const { id } = req.params;
+    const result = await ProductService.deleteProductFromDB(id);
 
     res.status(200).json({
       success: true,
       message: 'Product deleted successfully !',
       data: result,
     });
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      message: err.message || 'Something went wrong to delete data !',
+      error: err,
+    });
   }
 };
 
