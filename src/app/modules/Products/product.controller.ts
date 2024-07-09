@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express';
 import { ProductService } from './product.service';
+import {z} from 'zod';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -135,6 +136,8 @@ const deleteProduct = async (req: Request, res: Response) => {
       error: err,
     });
   }
+
+  
 };
 
 export const ProductController = {

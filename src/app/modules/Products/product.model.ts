@@ -2,13 +2,15 @@ import { model, Schema } from 'mongoose';
 import {
   TInventory,
   TProduct,
-  TVariants,
+  
+  TVariant,
+  
   TYPProductModel,
 } from './product.interface';
 import bcrypt from 'bcrypt';
 import config from '../../config';
 
-const variantSchema = new Schema<TVariants>({
+const variantSchema = new Schema<TVariant>({
   type: { type: String, required: true },
   value: { type: String, required: true },
 });
@@ -54,17 +56,10 @@ const productSchema = new Schema<TProduct, TYPProductModel>(
 
     tags: {
       type: [String],
-      required: [true, 'Tags is required'],
     },
 
-    variants: {
-      type: [variantSchema],
-      required: true,
-    },
-
-    inventory: {
-      type: [inventorySchema],
-    },
+    variants: { type: [variantSchema] },
+    inventory: inventorySchema,
 
     isDeleted: {
       type: Boolean,
@@ -84,7 +79,7 @@ const productSchema = new Schema<TProduct, TYPProductModel>(
 
 // virtual
 productSchema.virtual('myIdeas').get(function () {
-  return this.name + this.price;
+  return this.name + this.description;
 });
 
 // Query Middleware

@@ -45,12 +45,15 @@ const searchProductsFromDB = async (searchProduct: string) => {
   });
   return result;
 };
-//copy end
+//this end
 
 const getSingleProductFromDB = async (id: string) => {
   const result = await ProductModel.findById(id);
   return result;
 };
+//aggregate here
+
+
 
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   const { name, price, ...remainingProductData } = payload;
