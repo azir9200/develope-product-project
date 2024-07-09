@@ -5,9 +5,18 @@ const createProductIntoDB = async (product: TProduct) => {
   if (await ProductModel.isUserExists(product.id)) {
     throw new Error('Oi, This User is Already Exists !');
   }
-  const result = await ProductModel.create(product);
+  const userData: Partial<TProduct> = {};
+  const newUser = await ProductModel.create(userData);
+  if (Object.keys(newUser).length) {
+    product.id = newUser.id;
+    product.user = newUser._id;
 
-  return result;
+    const newProduct = await ProductModel.create(product);
+    return newProduct;
+  }
+
+  // const result = await ProductModel.create(product);
+  // return result;
 };
 
 // const getAllProductsFromDB = async (query: Record<string, unknown>) => {
@@ -52,8 +61,6 @@ const getSingleProductFromDB = async (id: string) => {
   return result;
 };
 //aggregate here
-
-
 
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   const { name, price, ...remainingProductData } = payload;

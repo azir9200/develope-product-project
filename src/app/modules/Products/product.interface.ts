@@ -1,4 +1,5 @@
-import { Model } from "mongoose";
+
+import { Model, Types } from 'mongoose';
 
 // export type TVariants = {
 //     type: string;
@@ -39,7 +40,8 @@ export type TVariant = {
   
   // Product Interface
   export type TProduct = {
-    id: string,
+    id: string;
+  user: Types.ObjectId,
     password: string,
     name: string;
     description: string;

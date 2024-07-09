@@ -14,5 +14,5 @@ export default {
   database_url: process.env.DB_URL,
 // eslint-disable-next-line no-undef
 bcrypt_salt_round: process.env.BCRYPT_SALT_ROUNDS,
-// default_pass: process.env.DEFAULT_PASS,
+ default_pass: process.env.DEFAULT_PASS,
 };
