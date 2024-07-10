@@ -25,6 +25,7 @@ const createOrder = async (req: Request, res: Response) => {
     });
   }
 };
+
 // const getAllOrders = async (req: Request, res: Response) => {
 //   try {
 //     const result = await OrderService.getAllOrderFromDB();

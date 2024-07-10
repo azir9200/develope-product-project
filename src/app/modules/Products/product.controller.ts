@@ -2,11 +2,12 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express';
 import { ProductService } from './product.service';
-import {z} from 'zod';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
+
+    console.log(productData);
 
     const result = await ProductService.createProductIntoDB(productData);
     console.log('product data', result);
@@ -24,20 +25,6 @@ const createProduct = async (req: Request, res: Response) => {
     });
   }
 };
-
-// const getAllProducts = async (req: Request, res: Response) => {
-//   try {
-//     const result = await ProductService.getAllProductsFromDB(req.query);
-
-//     res.status(200).json({
-//       success: true,
-//       message: 'Product are retrieved  successfully !',
-//       data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
 const getProductsAndSearch = async (req: Request, res: Response) => {
   try {
@@ -63,13 +50,7 @@ const getProductsAndSearch = async (req: Request, res: Response) => {
       });
     }
   } catch (err: any) {
-    // catch (err) {
-    //   res.status(500).json({
-    //     success: false,
-    //     error: err,
-    //   });
-    // }
-    res.status(500).json({
+       res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong  !',
       error: err,
@@ -121,8 +102,9 @@ const updateProduct = async (req: Request, res: Response) => {
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductService.deleteProductFromDB(id);
+    const { productId } = req.params;
+    const result = await ProductService.deleteProductFromDB(productId);
+    console.log(result);
 
     res.status(200).json({
       success: true,
@@ -136,8 +118,6 @@ const deleteProduct = async (req: Request, res: Response) => {
       error: err,
     });
   }
-
-  
 };
 
 export const ProductController = {

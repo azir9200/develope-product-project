@@ -1,68 +1,40 @@
-import { TProduct } from './product.interface';
-import { ProductModel } from './product.model';
+import { IProduct } from './product.interface';
+import Product from './product.model';
 
-const createProductIntoDB = async (product: TProduct) => {
-  if (await ProductModel.isUserExists(product.id)) {
-    throw new Error('Oi, This User is Already Exists !');
-  }
-  const userData: Partial<TProduct> = {};
-  const newUser = await ProductModel.create(userData);
-  if (Object.keys(newUser).length) {
-    product.id = newUser.id;
-    product.user = newUser._id;
+const createProductIntoDB = async (product: IProduct) => {
+  // if (await ProductModel.isUserExists(product.id)) {
+  //   throw new Error('Oi, This User is Already Exists !');
+  // }
+  // const userData: Partial<TProduct> = {};
+  // const newUser = await ProductModel.create(userData);
+  // if (Object.keys(newUser).length) {
+  //   product.id = newUser.id;
+  //   product.user = newUser._id;
 
-    const newProduct = await ProductModel.create(product);
-    return newProduct;
-  }
+  //   const newProduct = await ProductModel.create(product);
+  //   return newProduct;
+  // }
 
-  // const result = await ProductModel.create(product);
-  // return result;
+  const result = await Product.create(product);
+  console.log('create  Product from DB', result);
+  return result;
 };
 
-// const getAllProductsFromDB = async (query: Record<string, unknown>) => {
-//   console.log(' query', query);
-//   const queryObj = { ...query };
-
-//   const productSearchFields = ['name', 'price'];
-
-//   let searchTerm = '';
-
-//   if (query?.searchTerm) {
-//     searchTerm = query?.searchTerm as string;
-//   }
-
-//   const searchQuery = ProductModel.find({
-//     $or: productSearchFields.map((field) => ({
-//       [field]: { $regex: searchTerm, $options: '1' },
-//     })),
-//   });
-
-//   const excludeFields = ['searchTerm'];
-//   excludeFields.forEach((el) => delete queryObj[el]);
-
-//   console.log(query, queryObj)
-
-//   const result = await searchQuery.find(query);
-//   return result;
-// };
-
-// copy here
 const searchProductsFromDB = async (searchProduct: string) => {
   const regex = new RegExp(searchProduct, 'i');
-  const result = await ProductModel.find({
+  const result = await Product.find({
     $or: [{ name: regex }, { description: regex }, { category: regex }],
   });
   return result;
 };
-//this end
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await ProductModel.findById(id);
+  const result = await Product.findById(id);
   return result;
 };
 //aggregate here
 
-const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
+const updateProductFromDB = async (id: string, payload: Partial<IProduct>) => {
   const { name, price, ...remainingProductData } = payload;
 
   const modifiedUpdatedData: Record<string, unknown> = {
@@ -82,27 +54,23 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   }
   console.log(modifiedUpdatedData);
 
-  const result = await ProductModel.findOneAndUpdate(
-    { id },
-    modifiedUpdatedData,
-    {
-      new: true,
-      runValidators: true,
-    },
-  );
+  const result = await Product.findOneAndUpdate({ id }, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 
 const deleteProductFromDB = async (id: string) => {
-  const result = await ProductModel.updateOne({ id }, { isDeleted: true });
+  const result = await Product.findByIdAndDelete(id);
   return result;
 };
 
 export const ProductService = {
   createProductIntoDB,
-  //   getAllProductsFromDB,
+  searchProductsFromDB,
   getSingleProductFromDB,
   updateProductFromDB,
   deleteProductFromDB,
-  searchProductsFromDB,
+  
 };
