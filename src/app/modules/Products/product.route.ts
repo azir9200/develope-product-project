@@ -3,7 +3,11 @@ import { ProductController } from './product.controller';
 
 const router = express.Router();
 
-router.post('/create-product', ProductController.createProduct);
+router.post(
+  '/create-product',
+  // validateRequest(productValidationSchema),
+  ProductController.createProduct,
+);
 
 router.get('/', ProductController.getProductsAndSearch);
 

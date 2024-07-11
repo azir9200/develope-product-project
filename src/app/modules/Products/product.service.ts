@@ -19,7 +19,6 @@ const createProductIntoDB = async (product: IProduct) => {
   console.log('create  Product from DB', result);
   return result;
 };
-
 const searchProductsFromDB = async (searchProduct: string) => {
   const regex = new RegExp(searchProduct, 'i');
   const result = await Product.find({
@@ -41,6 +40,8 @@ const updateProductFromDB = async (id: string, payload: Partial<IProduct>) => {
     ...remainingProductData,
   };
 
+  console.log('update data  from service', modifiedUpdatedData);
+
   if (name && Object.keys(name).length) {
     for (const [key, value] of Object.entries(name)) {
       modifiedUpdatedData[`name.${key}`] = value;
@@ -52,13 +53,13 @@ const updateProductFromDB = async (id: string, payload: Partial<IProduct>) => {
       modifiedUpdatedData[`price.${key}`] = value;
     }
   }
-  console.log(modifiedUpdatedData);
+  console.log('update data  from service after code', modifiedUpdatedData);
 
   const result = await Product.findOneAndUpdate({ id }, modifiedUpdatedData, {
     new: true,
-    runValidators: true,
   });
   return result;
+  console.log('update data  from service after result', result);
 };
 
 const deleteProductFromDB = async (id: string) => {
@@ -72,5 +73,4 @@ export const ProductService = {
   getSingleProductFromDB,
   updateProductFromDB,
   deleteProductFromDB,
-  
 };

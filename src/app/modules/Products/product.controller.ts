@@ -7,7 +7,7 @@ const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
 
-    console.log(productData);
+    console.log('controller is working to create data', productData);
 
     const result = await ProductService.createProductIntoDB(productData);
     console.log('product data', result);
@@ -50,7 +50,7 @@ const getProductsAndSearch = async (req: Request, res: Response) => {
       });
     }
   } catch (err: any) {
-       res.status(500).json({
+    res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong  !',
       error: err,
@@ -84,7 +84,10 @@ const updateProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const { product } = req.body;
+    console.log('update before result', product);
+
     const result = await ProductService.updateProductFromDB(productId, product);
+    console.log('update after  result', result);
 
     res.status(200).json({
       success: true,

@@ -9,7 +9,6 @@ const createOrder = async (req: Request, res: Response) => {
 
     const { order: orderData } = req.body;
     const result = await OrderService.createOrderIntoDB(orderData);
-    console.log('Order data', result);
 
     res.status(200).json({
       success: true,
