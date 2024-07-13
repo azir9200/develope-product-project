@@ -2,14 +2,13 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express';
 import { ProductService } from './product.service';
+import productValidationSchema from './product.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
-
-    console.log('controller is working to create data', productData);
-
-    const result = await ProductService.createProductIntoDB(productData);
+    const zodParseData = productValidationSchema.parse(productData);
+    const result = await ProductService.createProductIntoDB(zodParseData);
     console.log('product data', result);
 
     res.status(200).json({
@@ -107,8 +106,6 @@ const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
     const result = await ProductService.deleteProductFromDB(productId);
-    console.log(result);
-
     res.status(200).json({
       success: true,
       message: 'Product deleted successfully !',
