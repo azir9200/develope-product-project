@@ -19,7 +19,7 @@ const productSchema = new Schema<TProduct>({
   category: { type: String },
   tags: { type: [String] },
   variants: [variantSchema],
-  inventory: [inventorySchema],
+  inventory: { inventorySchema },
 });
 
 export const Product = model<TProduct>('Product', productSchema);

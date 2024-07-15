@@ -9,11 +9,11 @@ router.post(
   ProductController.createProduct,
 );
 
-router.get('/', ProductController.getProductsAndSearch);
+router.get('/', ProductController.getAllProduct);
 
-router.get('/:id', ProductController.getSingleProduct);
+router.get('/:productId', ProductController.getSingleProduct);
 
-router.patch('/:productId', ProductController.updateProduct);
+// router.patch('/:productId', ProductController.updateProduct);
 
 router.delete('/:productId', ProductController.deleteProduct);
 

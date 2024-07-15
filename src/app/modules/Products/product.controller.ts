@@ -7,7 +7,7 @@ import productValidationSchema from './product.validation';
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
-    const zodParseData = productValidationSchema.parse(productData);
+    const zodParseData = await productValidationSchema.parse(productData);
     const result = await ProductService.createProductIntoDB(zodParseData);
     console.log('product data', result);
 
@@ -25,43 +25,23 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getProductsAndSearch = async (req: Request, res: Response) => {
+const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const { searchTerm } = req.query;
-
-    if (searchTerm) {
-      // If searchTerm is provided, search products
-      const result = await ProductService.searchProductsFromDB(
-        searchTerm as string,
-      );
-      res.status(200).json({
-        success: true,
-        message: `Products matching search term '${searchTerm}' fetched successfully!`,
-        data: result,
-      });
-    } else {
-      // If no searchTerm, get all products
-      const result = await ProductService.searchProductsFromDB();
-      res.status(200).json({
-        success: true,
-        message: 'Products fetched successfully!',
-        data: result,
-      });
-    }
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong  !',
-      error: err,
+    const result = await ProductService.getAllProductFromDB();
+    res.status(200).json({
+      success: true,
+      message: 'Product are retrieved  successfully !',
+      data: result,
     });
+  } catch (err) {
+    console.log(err);
   }
 };
-
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { productId } = req.params;
 
-    const result = await ProductService.getSingleProductFromDB(id);
+    const result = await ProductService.getSingleProductFromDB(productId);
 
     console.log('Hei Azir, single product', result);
 
@@ -70,42 +50,15 @@ const getSingleProduct = async (req: Request, res: Response) => {
       message: 'Product are retrieved  successfully !',
       data: result,
     });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong  !',
-      error: err,
-    });
-  }
-};
-
-const updateProduct = async (req: Request, res: Response) => {
-  try {
-    const { productId } = req.params;
-    const { product } = req.body;
-    console.log('update before result', product);
-
-    const result = await ProductService.updateProductFromDB(productId, product);
-    console.log('update after  result', result);
-
-    res.status(200).json({
-      success: true,
-      message: 'Product updated successfully !',
-      data: result,
-    });
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message || 'Something went wrong when update data !',
-      error: err,
-    });
+  } catch (err) {
+    console.log(err);
   }
 };
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
-    const result = await ProductService.deleteProductFromDB(productId);
+    const { id } = req.params;
+    const result = await ProductService.deleteProductFromDB(id);
     res.status(200).json({
       success: true,
       message: 'Product deleted successfully !',
@@ -122,9 +75,7 @@ const deleteProduct = async (req: Request, res: Response) => {
 
 export const ProductController = {
   createProduct,
-  // getAllProducts,
+  getAllProduct,
   getSingleProduct,
-  updateProduct,
   deleteProduct,
-  getProductsAndSearch,
 };
