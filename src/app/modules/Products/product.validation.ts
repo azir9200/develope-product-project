@@ -22,6 +22,31 @@ const productValidationSchema = z.object({
   inventory: inventoryValidationSchema.optional(),
   isDeleted: z.boolean(),
 });
+
+const updateVariantValidationSchema = z.object({
+  type: z.string().optional(),
+  value: z.string().optional(),
+});
+
+const updateInventoryValidationSchema = z.object({
+  quantity: z.number().optional(),
+  inStock: z.boolean().optional(),
+});
+
+const updateProductValidationSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().optional(),
+  description: z.string().optional(),
+  price: z.number().optional(),
+  category: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  variants: z.array(updateVariantValidationSchema).optional(),
+  inventory: updateInventoryValidationSchema.optional(),
+  isDeleted: z.boolean().optional(),
+});
 // });
 
-export default productValidationSchema;
+export const ProductValidation = {
+  productValidationSchema,
+  updateProductValidationSchema,
+};

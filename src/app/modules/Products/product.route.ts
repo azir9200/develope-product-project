@@ -13,8 +13,8 @@ router.get('/', ProductController.getAllProduct);
 
 router.get('/:productId', ProductController.getSingleProduct);
 
-// router.patch('/:productId', ProductController.updateProduct);
+ router.patch('/:productId', ProductController.updateProduct);
 
-router.delete('/:productId', ProductController.deleteProduct);
+router.delete('/:id', ProductController.deleteProduct);
 
 export const ProductRoute = router;

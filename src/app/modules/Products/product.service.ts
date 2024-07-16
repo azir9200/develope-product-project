@@ -15,10 +15,17 @@ const getSingleProductFromDB = async (id: string) => {
   const result = await Product.findOne({ id });
   return result;
 };
+const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
+  console.log(payload, 'payload');
+  const result = await Product.findOneAndUpdate({ id }, payload);
+
+  console.log(result, 'from service');
+  return result;
+};
 
 //delete product
 const deleteProductFromDB = async (id: string) => {
-  const result = await Product.updateOne({ id }, { isDeleted: true });
+  const result = await Product.deleteOne({ id }, { isDeleted: true });
   return result;
 };
 
@@ -26,6 +33,6 @@ export const ProductService = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
-  // updateProductFromDB,
+  updateProductFromDB,
   deleteProductFromDB,
 };
