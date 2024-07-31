@@ -9,7 +9,7 @@ export type TInventory = {
 };
 
 export type TProduct = {
-  id: string;
+ 
   name: string;
   description: string;
   price: number;
@@ -17,5 +17,5 @@ export type TProduct = {
   tags?: string[];
   variants?: TVariant[];
   inventory?: TInventory;
-  isDeleted: boolean;
+ 
 };

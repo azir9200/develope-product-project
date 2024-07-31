@@ -40,9 +40,27 @@ const getAllProduct = async (req: Request, res: Response) => {
 };
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
+    const { _id } = req.params;
+    console.log(_id, 'controller id');
+    const result = await ProductService.getSingleProductFromDB(_id);
 
-    const result = await ProductService.getSingleProductFromDB(productId);
+    console.log('Hei Azir, single product', result);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product are retrieved  successfully !',
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const searchProductByIphone = async (req: Request, res: Response) => {
+  try {
+    const { iPhone } = req.params;
+    console.log(iPhone, 'controller id');
+    const result = await ProductService.getSingleProductFromDB(iPhone);
 
     console.log('Hei Azir, single product', result);
 
@@ -100,6 +118,7 @@ export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProduct,
+  searchProductByIphone,
   updateProduct,
   deleteProduct,
 };

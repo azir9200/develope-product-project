@@ -12,12 +12,23 @@ const getAllProductFromDB = async () => {
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findOne({ id });
+  console.log(id, 'service id');
+  const result = await Product.findOne({ id: id });
+  console.log(result, 'result service');
   return result;
 };
+
+
+const searchProductByIphoneFromDB = async (iPhone: string) => {
+  console.log(iPhone, 'service id');
+  const result = await Product.findOne({ name: iPhone });
+  console.log(result, 'result service');
+  return result;
+};
+
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   console.log(payload, 'payload');
-  const result = await Product.findOneAndUpdate({ id }, payload);
+  const result = await Product.findOneAndUpdate({ id }, payload, { new: true });
 
   console.log(result, 'from service');
   return result;
@@ -33,6 +44,7 @@ export const ProductService = {
   createProductIntoDB,
   getAllProductFromDB,
   getSingleProductFromDB,
+  searchProductByIphoneFromDB,
   updateProductFromDB,
   deleteProductFromDB,
 };

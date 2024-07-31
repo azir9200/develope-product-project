@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import { OrderService } from './service.order';
+import { orderValidationSchema } from './validation.order';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    // const { orderInfo } = req.body;
-    // const zodParseDta = orderValidationSchema.parse(orderInfo);
-    // const result = await OrderService.createOrderIntoDB(zodParseDta);
-
     const { order: orderData } = req.body;
-    const result = await OrderService.createOrderIntoDB(orderData);
+    const zodParseDta = orderValidationSchema.parse(orderData);
+    const result = await OrderService.createOrderIntoDB(zodParseDta);
 
     res.status(200).json({
       success: true,

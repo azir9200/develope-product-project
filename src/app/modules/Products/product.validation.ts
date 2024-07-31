@@ -12,7 +12,7 @@ const inventoryValidationSchema = z.object({
 
 const productValidationSchema = z.object({
   // body: z.object({
-  id: z.string(),
+
   name: z.string(),
   description: z.string(),
   price: z.number(),
@@ -20,7 +20,6 @@ const productValidationSchema = z.object({
   tags: z.array(z.string()).optional(),
   variants: z.array(variantValidationSchema).optional(),
   inventory: inventoryValidationSchema.optional(),
-  isDeleted: z.boolean(),
 });
 
 const updateVariantValidationSchema = z.object({
@@ -34,7 +33,6 @@ const updateInventoryValidationSchema = z.object({
 });
 
 const updateProductValidationSchema = z.object({
-  id: z.string().optional(),
   name: z.string().optional(),
   description: z.string().optional(),
   price: z.number().optional(),
@@ -42,7 +40,6 @@ const updateProductValidationSchema = z.object({
   tags: z.array(z.string()).optional(),
   variants: z.array(updateVariantValidationSchema).optional(),
   inventory: updateInventoryValidationSchema.optional(),
-  isDeleted: z.boolean().optional(),
 });
 // });
 

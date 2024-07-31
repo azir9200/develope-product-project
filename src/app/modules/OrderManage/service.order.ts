@@ -11,6 +11,11 @@ const getAllOrderFromDB = async () => {
   return result;
 };
 
+// const getOrderByEmail = async (searchEmail: string) => {
+//   const regex = new RegExp(searchEmail, 'i');
+//   const result = await OrderModel.find({ email: regex });
+//   return result;
+// };
 
 const getOrderByEmail = async (searchEmail: string) => {
   const regex = new RegExp(searchEmail, 'i');

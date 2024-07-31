@@ -12,8 +12,9 @@ router.post(
 router.get('/', ProductController.getAllProduct);
 
 router.get('/:productId', ProductController.getSingleProduct);
+router.get('/:iphone', ProductController.getSingleProduct);
 
- router.patch('/:productId', ProductController.updateProduct);
+router.put('/:id', ProductController.updateProduct);
 
 router.delete('/:id', ProductController.deleteProduct);
 
