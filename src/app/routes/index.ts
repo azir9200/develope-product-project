@@ -1,23 +1,23 @@
 
 
-import { Router } from 'express';
-import { ProductRoute } from '../modules/Products/product.route';
-import { OrderRoute } from '../modules/OrderManage/route.order';
+// import { Router } from 'express';
+// import { ProductRoute } from '../modules/Products/product.route';
+// import { OrderRoute } from '../modules/OrderManage/route.order';
 
-const router = Router();
+// const router = Router();
 
-const moduleRoutes = [
+// const moduleRoutes = [
   
-  {
-    path: '/products',
-    route: ProductRoute,
-  },
-  {
-    path: '/orders',
-    route: OrderRoute,
-  },
-];
+//   {
+//     path: '/products',
+//     route: ProductRoute,
+//   },
+//   {
+//     path: '/orders',
+//     route: OrderRoute,
+//   },
+// ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+// moduleRoutes.forEach((route) => router.use(route.path, route.route));
 
-export default router;
+// export default router;

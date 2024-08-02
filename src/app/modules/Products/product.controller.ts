@@ -2,14 +2,12 @@
 /* eslint-disable no-console */
 import { Request, Response } from 'express';
 import { ProductService } from './product.service';
-import { ProductValidation } from './product.validation';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
     const { product: productData } = req.body;
-    const zodParseData =
-      await ProductValidation.productValidationSchema.parse(productData);
-    const result = await ProductService.createProductIntoDB(zodParseData);
+
+    const result = await ProductService.createProductIntoDB(productData);
     console.log('product data', result);
 
     res.status(200).json({
@@ -40,9 +38,9 @@ const getAllProduct = async (req: Request, res: Response) => {
 };
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { _id } = req.params;
-    console.log(_id, 'controller id');
-    const result = await ProductService.getSingleProductFromDB(_id);
+    const { id } = req.params;
+    console.log(id, 'controller id');
+    const result = await ProductService.getSingleProductFromDB(id);
 
     console.log('Hei Azir, single product', result);
 
@@ -59,7 +57,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
 const searchProductByIphone = async (req: Request, res: Response) => {
   try {
     const { iPhone } = req.params;
-    console.log(iPhone, 'controller id');
+    console.log(iPhone, 'controller iphone id');
     const result = await ProductService.getSingleProductFromDB(iPhone);
 
     console.log('Hei Azir, single product', result);
@@ -76,10 +74,8 @@ const searchProductByIphone = async (req: Request, res: Response) => {
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
-    console.log(req.params, 'from controller');
-    const { product } = req.body;
-    const result = await ProductService.updateProductFromDB(productId, product);
+    const { id } = req.params;
+    const result = await ProductService.updateProductFromDB(id, req.body);
 
     res.status(200).json({
       success: true,

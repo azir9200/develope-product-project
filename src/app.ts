@@ -1,20 +1,17 @@
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
-
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/notFound';
-import router from './app/routes';
+import { ProductRoute } from './app/modules/Products/product.route';
+import { OrderRoute } from './app/modules/OrderManage/route.order';
 
 const app: Application = express();
 
 //parsers
 app.use(express.json());
 app.use(cors());
-app.use('/api/', router);
-
-// app.use('/api/products', ProductRoute);
-
-// app.use('/api/orders', OrderRoute);
+app.use('/api', ProductRoute);
+app.use('/api', OrderRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello our  wonder  World!');

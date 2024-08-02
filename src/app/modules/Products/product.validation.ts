@@ -11,8 +11,7 @@ const inventoryValidationSchema = z.object({
 });
 
 const productValidationSchema = z.object({
-  // body: z.object({
-
+  
   name: z.string(),
   description: z.string(),
   price: z.number(),
