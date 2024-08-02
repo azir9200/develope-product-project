@@ -11,9 +11,17 @@ const getAllOrderFromDB = async () => {
   return result;
 };
 
+const getOrderByEmail = async (query: Record<string, unknown>) => {
+  let searchTerm = '';
+  if (query?.searchTerm) {
+    searchTerm = query?.searchTerm as string;
+  }
 
-const getOrderByEmail = async (email: string) => {
-  const result = await OrderModel.find({ email });
+  const result = await OrderModel.find({
+    $or: ['name', 'email'].map((field) => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  });
   return result;
 };
 

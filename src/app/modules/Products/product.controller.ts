@@ -5,9 +5,7 @@ import { ProductService } from './product.service';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const { product: productData } = req.body;
-
-    const result = await ProductService.createProductIntoDB(productData);
+    const result = await ProductService.createProductIntoDB(req.body);
     console.log('product data', result);
 
     res.status(200).json({
@@ -56,9 +54,8 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 const searchProductByIphone = async (req: Request, res: Response) => {
   try {
-    const { iPhone } = req.params;
-    console.log(iPhone, 'controller iphone id');
-    const result = await ProductService.getSingleProductFromDB(iPhone);
+    console.log(req.query, 'controller iphone id');
+    const result = await ProductService.getSingleProductFromDB(req.query);
 
     console.log('Hei Azir, single product', result);
 
@@ -95,12 +92,13 @@ const deleteProduct = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const result = await ProductService.deleteProductFromDB(id);
-
-    res.status(200).json({
-      success: true,
-      message: 'Product deleted successfully !',
-      data: result,
-    });
+    if (result.deletedCount === 1) {
+      res.status(200).json({
+        success: true,
+        message: 'Product deleted successfully!',
+        data: null,
+      });
+    }
   } catch (err: any) {
     res.status(500).json({
       success: false,

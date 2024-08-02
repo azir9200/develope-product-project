@@ -35,7 +35,6 @@ const getAllOrders = async (req: Request, res: Response) => {
   }
 };
 
-
 // const getOrderSearch = async (req: Request, res: Response) => {
 //   try {
 //     const result = await OrderService.getAllOrderFromDB();
@@ -52,11 +51,12 @@ const getAllOrders = async (req: Request, res: Response) => {
 //     });
 //   }
 // };
+
 const getOrderByEmail = async (req: Request, res: Response) => {
   try {
     const email = req.params.email;
     console.log(req.body, 'order controller');
-    const result = await OrderService.getOrderByEmail(email as string);
+    const result = await OrderService.getOrderByEmail(req.query);
     res.status(200).json({
       success: true,
       message: `Products matching search term '${email}' fetched successfully!`,

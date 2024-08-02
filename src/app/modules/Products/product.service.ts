@@ -16,7 +16,6 @@ const getSingleProductFromDB = async (id: string) => {
   return result;
 };
 
-
 const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
   const result = await Product.findOneAndUpdate({ _id: id }, payload, {
     new: true,
@@ -25,13 +24,21 @@ const updateProductFromDB = async (id: string, payload: Partial<TProduct>) => {
 };
 
 const deleteProductFromDB = async (id: string) => {
-  const result = await Product.deleteOne({ _id: id }, { isDeleted: true });
+  const result = await Product.deleteOne({ _id: id });
   return result;
 };
 
-const searchProductByIphoneFromDB = async (iPhone: string) => {
-  const result = await Product.findOne({ name: iPhone });
-  console.log(result, 'result service');
+const searchProductByIphoneFromDB = async (query: Record<string, unknown>) => {
+  // let searchTerm = "";
+
+  // if(query?.searchTerm){
+  //   searchTerm = query?.searchTerm;
+  // }
+
+  const result = await Product.find({
+    name: { $regex: query.searchTerm, $options: 1 },
+  });
+  // console.log(result, 'result service');
   return result;
 };
 
