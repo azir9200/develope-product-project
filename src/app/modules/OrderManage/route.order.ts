@@ -1,7 +1,7 @@
 import express from 'express';
 import { OrderController } from './controller.order';
-import { orderValidationSchema } from './validation.order';
 import validateRequest from '../../middlewares/validateRequest';
+import orderValidationSchema from './validation.order';
 
 const router = express.Router();
 
@@ -12,7 +12,6 @@ router.post(
 );
 
 router.get('/orders', OrderController.getAllOrders);
-
 
 router.get('/:email', OrderController.getOrderByEmail);
 

@@ -12,7 +12,6 @@ const inventorySchema = new Schema<TInventory>({
 });
 
 const productSchema = new Schema<TProduct>({
-  
   name: { type: String, required: true },
   description: { type: String },
   price: { type: Number },
@@ -20,6 +19,17 @@ const productSchema = new Schema<TProduct>({
   tags: { type: [String] },
   variants: [variantSchema],
   inventory: { inventorySchema },
+});
+
+productSchema.pre('save', async function (next) {
+  const isProductExists = await Product.find({
+    id: this._id,
+  });
+
+  if (!isProductExists) {
+    throw new Error('Product is not exists anymore !');
+  }
+  next();
 });
 
 export const Product = model<TProduct>('Product', productSchema);

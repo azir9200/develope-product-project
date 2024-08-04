@@ -1,31 +1,18 @@
-// import { z } from 'zod';
-
-// export const orderValidationSchema = z.object({
-//   email: z.string(),
-//   productId: z.string(),
-//   price: z.number(),
-//   quantity: z.number(),
-// });
-
-
 import { z } from 'zod';
 
-const variantSchema = z.object({
-  type: z.string(),
-  value: z.string(),
+// Define the Zod schema
+const orderValidationSchema = z.object({
+  body: z.object({
+    email: z.string().email({ message: 'Invalid email address' }),
+    productId: z
+      .string()
+      .regex(/^[0-9a-fA-F]{24}$/, { message: 'Invalid product ID format' }),
+    price: z.number().positive({ message: 'Price must be a positive number' }),
+    quantity: z
+      .number()
+      .int()
+      .positive({ message: 'Quantity must be a positive integer' }),
+  }),
 });
 
-const inventorySchema = z.object({
-  quantity: z.number().int().nonnegative(),
-  inStock: z.boolean(),
-});
-
-export const orderValidationSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  price: z.number().positive(),
-  category: z.string(),
-  tags: z.array(z.string()),
-  variants: z.array(variantSchema),
-  inventory: inventorySchema,
-});
+export default orderValidationSchema;

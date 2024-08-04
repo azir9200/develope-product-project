@@ -12,6 +12,17 @@ const getAllProductFromDB = async () => {
 };
 
 const getSingleProductFromDB = async (id: string) => {
+  // createServiceSchema.pre('save', async function (next) {
+  //   const isServiceExists = await ServiceModel.findOne({
+  //     name: this.name,
+  //   });
+
+  //   if (isServiceExists) {
+  //     throw new Error('This service is already exists !');
+  //   }
+  //   next();
+  // });
+
   const result = await Product.findById(id);
   return result;
 };
@@ -29,16 +40,10 @@ const deleteProductFromDB = async (id: string) => {
 };
 
 const searchProductByIphoneFromDB = async (query: Record<string, unknown>) => {
-  // let searchTerm = "";
-
-  // if(query?.searchTerm){
-  //   searchTerm = query?.searchTerm;
-  // }
-
   const result = await Product.find({
     name: { $regex: query.searchTerm, $options: 1 },
   });
-  // console.log(result, 'result service');
+
   return result;
 };
 
