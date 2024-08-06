@@ -14,8 +14,6 @@ app.use('/api', ProductRoute);
 app.use('/api', OrderRoute);
 
 app.get('/', (req: Request, res: Response) => {
- 
-
   res.send('Hello our  wonder  World!');
 });
 

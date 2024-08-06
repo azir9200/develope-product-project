@@ -34,11 +34,12 @@ const getAllProduct = async (req: Request, res: Response) => {
     console.log(err);
   }
 };
+
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    console.log(id, 'controller id');
-    const result = await ProductService.getSingleProductFromDB(id);
+    const { productId } = req.params;
+    console.log(productId, 'controller productId');
+    const result = await ProductService.getSingleProductFromDB(productId);
 
     console.log('Hei Azir, single product', result);
 
@@ -54,8 +55,18 @@ const getSingleProduct = async (req: Request, res: Response) => {
 
 const searchProductByIphone = async (req: Request, res: Response) => {
   try {
+    const { iPhone } = req.query; // Extract the 'id' parameter from the query string
+
+    if (!iPhone) {
+      return res.status(400).json({
+        success: false,
+        message: 'Product ID is required',
+      });
+    }
     console.log(req.query, 'controller iphone id');
-    const result = await ProductService.getSingleProductFromDB(req.query);
+    const result = await ProductService.getSingleProductFromDB(
+      iPhone as string,
+    );
 
     console.log('Hei Azir, single product', result);
 
@@ -65,14 +76,21 @@ const searchProductByIphone = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: 'An error occurred while retrieving the product',
+    });
   }
 };
 
 const updateProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductService.updateProductFromDB(id, req.body);
+    const { productId } = req.params;
+    const result = await ProductService.updateProductFromDB(
+      productId,
+      req.body,
+    );
 
     res.status(200).json({
       success: true,
@@ -90,8 +108,8 @@ const updateProduct = async (req: Request, res: Response) => {
 
 const deleteProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductService.deleteProductFromDB(id);
+    const { productId } = req.params;
+    const result = await ProductService.deleteProductFromDB(productId);
     if (result.deletedCount === 1) {
       res.status(200).json({
         success: true,

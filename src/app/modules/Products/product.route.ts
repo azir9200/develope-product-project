@@ -13,10 +13,10 @@ router.post(
 
 router.get('/products', ProductController.getAllProduct);
 
-router.get('/products/:id', ProductController.getSingleProduct);
+router.get('/products/:productId', ProductController.getSingleProduct);
 
-router.put('/products/:id', ProductController.updateProduct);
+router.put('/products/:productId', ProductController.updateProduct);
 
-router.delete('/products/:id', ProductController.deleteProduct);
+router.delete('/products/:productId', ProductController.deleteProduct);
 
 export const ProductRoute = router;

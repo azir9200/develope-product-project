@@ -1,5 +1,4 @@
 # Project Title
-
 Project Name: E-commerce Product Data Types
 
 ## Introduction
@@ -17,7 +16,6 @@ This Project build up with mongoose database management. Data is manage differ t
 One can create product, get all product and get product by certain fields as well as  update and delete data.
 
 ### Prerequisites
-
 List of things you need to have installed before running the project.
 
 ### Installation

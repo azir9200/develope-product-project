@@ -1,25 +1,5 @@
-// import { Schema, model } from 'mongoose';
-// import { TOrderData } from './interface.order';
-
-// const OrderSchema = new Schema<TOrderData>({
-//   email: { type: String, required: true },
-//   productId: {
-//     type: Schema.Types.ObjectId,
-//     required: [true, 'Product id is required'],
-//     unique: true,
-//     ref: 'Product',
-//   },
-//   price: { type: Number, required: true },
-//   quantity: { type: Number, required: true },
-// });
-
-// const OrderModel = model<TOrderData>('Order', OrderSchema);
-
-// export default OrderModel;
-
-
 import { Schema, model } from 'mongoose';
-import { TOrderData } from './interface.order';
+import { TOrderData, TOrderModel,  } from './interface.order';
 
 // Define the schema
 const OrderSchema = new Schema<TOrderData>({
@@ -33,7 +13,10 @@ const OrderSchema = new Schema<TOrderData>({
   quantity: { type: Number, required: true },
 });
 
-// Define and export the model
-const OrderModel = model<TOrderData>('Order', OrderSchema);
 
-export default OrderModel;
+// Creating a custom static method
+OrderSchema.statics.isUserExists = async function (email: string) {
+  const existingUser = await this.findOne({ email });
+  return existingUser;
+};
+export const OrderModel = model<TOrderData, TOrderModel>('Order', OrderSchema);

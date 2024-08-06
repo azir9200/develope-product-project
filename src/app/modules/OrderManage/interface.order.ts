@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export type TOrderData = {
   email: string;
@@ -6,3 +6,6 @@ export type TOrderData = {
   price: number;
   quantity: number;
 };
+export interface TOrderModel extends Model<TOrderData> {
+  isOrderExists(email: string): Promise<TOrderData | null>;
+}

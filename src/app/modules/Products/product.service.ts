@@ -7,22 +7,12 @@ const createProductIntoDB = async (product: TProduct) => {
 };
 
 const getAllProductFromDB = async () => {
-  const result = await Product.find();
+
+const result = await Product.find();
   return result;
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  // createServiceSchema.pre('save', async function (next) {
-  //   const isServiceExists = await ServiceModel.findOne({
-  //     name: this.name,
-  //   });
-
-  //   if (isServiceExists) {
-  //     throw new Error('This service is already exists !');
-  //   }
-  //   next();
-  // });
-
   const result = await Product.findById(id);
   return result;
 };
