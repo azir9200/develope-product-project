@@ -9,13 +9,11 @@ export type TInventory = {
 };
 
 export type TProduct = {
- 
   name: string;
   description: string;
   price: number;
   category: string;
-  tags?: string[];
-  variants?: TVariant[];
-  inventory?: TInventory;
- 
+  tags: string[];
+  variants: TVariant[];
+  inventory: TInventory;
 };

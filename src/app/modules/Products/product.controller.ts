@@ -37,15 +37,15 @@ const getAllProduct = async (req: Request, res: Response) => {
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { productId } = req.params;
-    console.log(productId, 'controller productId');
-    const result = await ProductService.getSingleProductFromDB(productId);
+    const { id } = req.params;
+    console.log(id, 'controller productId');
+    const result = await ProductService.getSingleProductFromDB(id);
 
     console.log('Hei Azir, single product', result);
 
     res.status(200).json({
       success: true,
-      message: 'Product are retrieved  successfully !',
+      message: 'Product fetched successfully!',
       data: result,
     });
   } catch (err) {

@@ -16,9 +16,9 @@ const productValidationSchema = z.object({
     description: z.string(),
     price: z.number(),
     category: z.string(),
-    tags: z.array(z.string()).optional(),
-    variants: z.array(variantValidationSchema).optional(),
-    inventory: inventoryValidationSchema.optional(),
+    tags: z.array(z.string()),
+    variants: z.array(variantValidationSchema),
+    inventory: inventoryValidationSchema,
   }),
 });
 

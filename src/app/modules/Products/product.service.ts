@@ -7,13 +7,12 @@ const createProductIntoDB = async (product: TProduct) => {
 };
 
 const getAllProductFromDB = async () => {
-
-const result = await Product.find();
+  const result = await Product.find();
   return result;
 };
 
 const getSingleProductFromDB = async (id: string) => {
-  const result = await Product.findById(id);
+  const result = await Product.find({ id });
   return result;
 };
 

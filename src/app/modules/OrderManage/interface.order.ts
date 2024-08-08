@@ -6,6 +6,12 @@ export type TOrderData = {
   price: number;
   quantity: number;
 };
-export interface TOrderModel extends Model<TOrderData> {
+
+export type TOrderMethods = {
   isOrderExists(email: string): Promise<TOrderData | null>;
-}
+};
+export type TOrderModel = Model<
+  TOrderData,
+  Record<string, never>,
+  TOrderMethods
+>;

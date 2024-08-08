@@ -1,13 +1,13 @@
 import { TOrderData } from './interface.order';
 import { OrderModel } from './model.order';
 
-const createOrderIntoDB = async (order: TOrderData) => {
-  const result = await OrderModel.create(order);
+const createOrderIntoDB = async (data: TOrderData) => {
+  const order = new OrderModel(data);
 
-  if (await OrderModel.isOrderExists(order.email)) {
-    throw new Error('User Already Exists!');
+  if (await order.isOrderExists(data.email)) {
+    throw new Error('Order Already Exists!');
   }
-
+  const result = await order.save();
   return result;
 };
 

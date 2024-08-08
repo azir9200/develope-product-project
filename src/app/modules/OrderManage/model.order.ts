@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { TOrderData, TOrderModel,  } from './interface.order';
+import { TOrderData, TOrderModel } from './interface.order';
 
 // Define the schema
 const OrderSchema = new Schema<TOrderData>({
@@ -7,16 +7,15 @@ const OrderSchema = new Schema<TOrderData>({
   productId: {
     type: Schema.Types.ObjectId,
     required: [true, 'Product id is required'],
-    ref: 'Product', // Ensure 'Product' model exists
+    ref: 'Product',
   },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
 });
 
-
-// Creating a custom static method
-OrderSchema.statics.isUserExists = async function (email: string) {
-  const existingUser = await this.findOne({ email });
-  return existingUser;
+// Creating a  method
+OrderSchema.methods.isOrderExists = async function (email: string) {
+  const existingOrder = await OrderModel.findOne({ email });
+  return existingOrder;
 };
 export const OrderModel = model<TOrderData, TOrderModel>('Order', OrderSchema);
