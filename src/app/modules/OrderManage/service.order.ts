@@ -13,15 +13,34 @@ const createOrderIntoDB = async (data: TOrderData) => {
 
 const getAllOrderFromDB = async () => {
   const result = await OrderModel.find();
-  return result;
-};
-
-const getOrderByIdFromDB = async (id: string) => {
-  const result = await OrderModel.findById(id);
   if (!result) {
     throw new Error('Order not found');
   }
   return result;
+};
+
+// const getOrderByIdFromDB = async (id: string) => {
+//   const result = await OrderModel.findById(id);
+//   if (!result) {
+//     throw new Error('Order not found');
+//   }
+//   return result;
+// };
+
+const getOrderByIdFromDB = async (id: string) => {
+  try {
+    const result = await OrderModel.find({ id: id });
+    if (!result) {
+      return Error('Order not found');
+    }
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error) {
+    return Error('An error occurred while fetching the order');
+    console.log(error);
+  }
 };
 
 const getOrderByEmail = async (query: Record<string, unknown>) => {

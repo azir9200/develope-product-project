@@ -13,6 +13,15 @@ const OrderSchema = new Schema<TOrderData>({
   quantity: { type: Number, required: true },
 });
 
+
+OrderSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+OrderSchema.methods.isOrderExists = async function (id: string) {
+  return await OrderModel.findOne({ id });
+};
 // Creating a  method
 OrderSchema.methods.isOrderExists = async function (email: string) {
   const existingOrder = await OrderModel.findOne({ email });

@@ -22,23 +22,6 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
-// const getAllOrders = async (req: Request, res: Response) => {
-//   try {
-//     const result = await OrderService.getAllOrderFromDB();
-//     res.status(200).json({
-//       success: true,
-//       message: 'Orders are retrieved  successfully !',
-//       data: result,
-//     });
-//   } catch (err: any) {
-//     res.status(500).json({
-//       success: false,
-//       message: err.message || 'Something went wrong  !',
-//       error: err,
-//     });
-//   }
-// };
-
 const getAllOrders = catchAsync(async (req, res) => {
   const result = await OrderService.getAllOrderFromDB();
 
@@ -46,6 +29,19 @@ const getAllOrders = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Course are retrieved successfully',
+    data: result,
+  });
+});
+
+const getSingleOrder = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const result = await OrderService.getOrderByIdFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Service is retrieved successfully',
     data: result,
   });
 });
@@ -72,4 +68,5 @@ export const OrderController = {
   createOrder,
   getAllOrders,
   getOrderByEmail,
+  getSingleOrder
 };

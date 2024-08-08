@@ -13,6 +13,8 @@ router.post(
 
 router.get('/orders', OrderController.getAllOrders);
 
-router.get('/:email', OrderController.getOrderByEmail);
+router.get('/orders/:id', OrderController.getSingleOrder);
+
+router.get('/orders/:email', OrderController.getOrderByEmail);
 
 export const OrderRoute = router;

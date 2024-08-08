@@ -36,22 +36,18 @@ const getAllProduct = async (req: Request, res: Response) => {
 };
 
 const getSingleProduct = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
+  try {    const { id } = req.params;
     console.log(id, 'controller productId');
     const result = await ProductService.getSingleProductFromDB(id);
-
     console.log('Hei Azir, single product', result);
-
     res.status(200).json({
       success: true,
       message: 'Product fetched successfully!',
       data: result,
     });
   } catch (err) {
-    console.log(err);
-  }
-};
+    console.log(err); }};
+    
 
 const searchProductByIphone = async (req: Request, res: Response) => {
   try {
