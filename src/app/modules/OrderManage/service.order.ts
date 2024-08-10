@@ -1,14 +1,44 @@
+import { Product } from '../Products/product.model';
 import { TOrderData } from './interface.order';
 import { OrderModel } from './model.order';
 
 const createOrderIntoDB = async (data: TOrderData) => {
-  const order = new OrderModel(data);
+  const { productId } = data;
 
-  if (await order.isOrderExists(data.email)) {
-    throw new Error('Order Already Exists!');
+  const findProduct = await Product.findById(productId);
+  console.log(findProduct?.inventory.quantity, 'fres');
+  // const findProduct = await Product.findById(productId);
+  console.log(findProduct?.inventory.inStock, 'fre334');
+  // const availableQuantity = findProduct?.inventory.quantity;
+  // const availableStock = findProduct?.inventory.inStock;
+
+  if (!findProduct) {
+    throw new Error('Product not found');
+  } else {
+    const availableQuantity = findProduct?.inventory.quantity - data.quantity;
+    if (findProduct?.inventory.quantity > 0 && 0 <= availableQuantity) {
+      const result = await OrderModel.create(data);
+      const updateProduct = await Product.findByIdAndUpdate(productId, {
+        'inventory.quantity': availableQuantity,
+        'inventory.stock': availableQuantity > 0,
+      });
+      return result;
+    } else {
+      throw new Error('insufficient stock.');
+    }
   }
-  const result = await order.save();
-  return result;
+
+  const availableQuantity = findProduct?.inventory.quantity;
+  const availableStock = findProduct?.inventory.inStock;
+
+  if( availableQuantity > 0){
+    availableStock = false;
+  }else{
+    availableStock = true;
+  }
+
+  // const result = await order.create();
+  // return result;
 };
 
 const getAllOrderFromDB = async () => {

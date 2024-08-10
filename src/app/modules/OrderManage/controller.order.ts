@@ -28,7 +28,7 @@ const getAllOrders = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course are retrieved successfully',
+    message: 'Order are retrieved successfully',
     data: result,
   });
 });
