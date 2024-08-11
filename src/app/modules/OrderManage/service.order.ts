@@ -6,39 +6,21 @@ const createOrderIntoDB = async (data: TOrderData) => {
   const { productId } = data;
 
   const findProduct = await Product.findById(productId);
-  console.log(findProduct?.inventory.quantity, 'fres');
-  // const findProduct = await Product.findById(productId);
-  console.log(findProduct?.inventory.inStock, 'fre334');
-  // const availableQuantity = findProduct?.inventory.quantity;
-  // const availableStock = findProduct?.inventory.inStock;
-
   if (!findProduct) {
     throw new Error('Product not found');
   } else {
     const availableQuantity = findProduct?.inventory.quantity - data.quantity;
     if (findProduct?.inventory.quantity > 0 && 0 <= availableQuantity) {
       const result = await OrderModel.create(data);
-      const updateProduct = await Product.findByIdAndUpdate(productId, {
+      await Product.findByIdAndUpdate(productId, {
         'inventory.quantity': availableQuantity,
-        'inventory.stock': availableQuantity > 0,
+        'inventory.inStock': availableQuantity > 0,
       });
       return result;
     } else {
-      throw new Error('insufficient stock.');
+      throw new Error('Insufficient quantity available in inventory');
     }
   }
-
-  const availableQuantity = findProduct?.inventory.quantity;
-  const availableStock = findProduct?.inventory.inStock;
-
-  if( availableQuantity > 0){
-    availableStock = false;
-  }else{
-    availableStock = true;
-  }
-
-  // const result = await order.create();
-  // return result;
 };
 
 const getAllOrderFromDB = async () => {
@@ -48,14 +30,6 @@ const getAllOrderFromDB = async () => {
   }
   return result;
 };
-
-// const getOrderByIdFromDB = async (id: string) => {
-//   const result = await OrderModel.findById(id);
-//   if (!result) {
-//     throw new Error('Order not found');
-//   }
-//   return result;
-// };
 
 const getOrderByIdFromDB = async (id: string) => {
   try {

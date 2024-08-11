@@ -17,7 +17,6 @@ const createProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong  !',
-      error: err,
     });
   }
 };
@@ -36,7 +35,8 @@ const getAllProduct = async (req: Request, res: Response) => {
 };
 
 const getSingleProduct = async (req: Request, res: Response) => {
-  try {    const { id } = req.params;
+  try {
+    const { id } = req.params;
     console.log(id, 'controller productId');
     const result = await ProductService.getSingleProductFromDB(id);
     console.log('Hei Azir, single product', result);
@@ -46,8 +46,9 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    console.log(err); }};
-    
+    console.log(err);
+  }
+};
 
 const searchProductByIphone = async (req: Request, res: Response) => {
   try {
@@ -97,7 +98,6 @@ const updateProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong to delete data !',
-      error: err,
     });
   }
 };
@@ -117,7 +117,6 @@ const deleteProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong to delete data !',
-      error: err,
     });
   }
 };

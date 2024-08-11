@@ -17,7 +17,6 @@ const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong  !',
-      error: err,
     });
   }
 };
@@ -59,7 +58,6 @@ const getOrderByEmail = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: err.message || 'Something went wrong  !',
-      error: err.message,
     });
   }
 };
@@ -68,5 +66,5 @@ export const OrderController = {
   createOrder,
   getAllOrders,
   getOrderByEmail,
-  getSingleOrder
+  getSingleOrder,
 };
