@@ -1,20 +1,28 @@
-import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
-import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import cors from 'cors';
 import notFound from './app/middlewares/notFound';
-import { ProductRoute } from './app/modules/Products/product.route';
-import { OrderRoute } from './app/modules/OrderManage/route.order';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+import router from './app/routes';
 
 const app: Application = express();
 
 //parsers
 app.use(express.json());
-app.use(cors());
-app.use('/api', ProductRoute);
-app.use('/api', OrderRoute);
+
+app.use(
+  cors({
+    origin: [
+      'https://travel-destination-guide-swart.vercel.app/',
+      'http://localhost:3000',
+    ],
+    credentials: true,
+  }),
+);
+
+app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello our  wonder  World!');
+  res.send('Welcome to our world !');
 });
 
 app.use(globalErrorHandler);

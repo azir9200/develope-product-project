@@ -1,49 +1,31 @@
 import { z } from 'zod';
 
-const variantValidationSchema = z.object({
-  type: z.string(),
-  value: z.string(),
-});
-
-const inventoryValidationSchema = z.object({
-  quantity: z.number(),
-  inStock: z.boolean(),
-});
-
 const productValidationSchema = z.object({
   body: z.object({
-    name: z.string(),
-    description: z.string(),
-    price: z.number(),
-    category: z.string(),
-    tags: z.array(z.string()),
-    variants: z.array(variantValidationSchema),
-    inventory: inventoryValidationSchema,
+  
+    title: z.string().min(1, { message: 'Title is required' }),
+    content: z.string().min(1, { message: 'Content is required' }),
+    image: z.string().min(1, { message: 'Images URL is required' }),
+    category: z.string().min(1, { message: 'Category is required' }),
+    tags: z.string().min(1, { message: 'Tags are required' }),
+    author: z.string().min(1, { message: 'Author is required' }),
+    upVotes: z
+      .number()
+      .int()
+      .min(0, { message: 'UpVotes cannot be negative' })
+      .default(0),
+    downVotes: z
+      .number()
+      .int()
+      .min(0, { message: 'DownVotes cannot be negative' })
+      .default(0),
+    createdAt: z.date().default(() => new Date()),
+    updatedAt: z.date().default(() => new Date()),
+    isPremium: z.boolean().default(false),
+    isVerified: z.boolean().default(false),
   }),
 });
 
-const updateVariantValidationSchema = z.object({
-  type: z.string().optional(),
-  value: z.string().optional(),
-});
-
-const updateInventoryValidationSchema = z.object({
-  quantity: z.number().optional(),
-  inStock: z.boolean().optional(),
-});
-
-const updateProductValidationSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional(),
-  price: z.number().optional(),
-  category: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  variants: z.array(updateVariantValidationSchema).optional(),
-  inventory: updateInventoryValidationSchema.optional(),
-});
-// });
-
 export const ProductValidation = {
   productValidationSchema,
-  updateProductValidationSchema,
 };

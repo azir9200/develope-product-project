@@ -1,19 +1,15 @@
-export type TVariant = {
-  type: string;
-  value: string;
-};
-
-export type TInventory = {
-  quantity: number;
-  inStock: boolean;
-};
-
 export type TProduct = {
-  name: string;
-  description: string;
-  price: number;
+  _id: string;
+  title: string;
+  content: string;
+  image: string;
   category: string;
-  tags: string[];
-  variants: TVariant[];
-  inventory: TInventory;
+  tags: string;
+  author: string;
+  upVotes: number;
+  downVotes: number;
+  createdAt: Date;
+  updatedAt: Date;
+  isPremium: boolean;
+  isVerified: boolean;
 };
