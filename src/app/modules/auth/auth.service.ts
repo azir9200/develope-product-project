@@ -29,9 +29,9 @@ const registerUser = async (payload: TRegisterUser) => {
     name: newUser.name,
     email: newUser.email,
     password: newUser.password,
-    phone: newUser.phone,
+    // phone: newUser.phone,
     role: newUser.role,
-    address: newUser.address,
+    // address: newUser.address,
   };
 
   const accessToken = createToken(

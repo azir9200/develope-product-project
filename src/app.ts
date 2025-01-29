@@ -12,8 +12,8 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      'https://travel-destination-guide-swart.vercel.app/',
-      'http://localhost:3000',
+      // 'https://travel-destination-guide-swart.vercel.app/',
+      'http://localhost:5173',
     ],
     credentials: true,
   }),
